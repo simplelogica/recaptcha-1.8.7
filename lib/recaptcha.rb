@@ -67,7 +67,7 @@ module Recaptcha
 
   def self.i18n(key, default)
     if defined?(I18n)
-      I18n.translate(key, default: default)
+      I18n.translate(key, :default => default)
     else
       default
     end

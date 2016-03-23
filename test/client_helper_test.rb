@@ -12,26 +12,26 @@ describe Recaptcha::ClientHelper do
 
     it "uses ssl when ssl by default is on" do
       Recaptcha.configuration.use_ssl_by_default = true
-      recaptcha_tags.must_include url(ssl: true)
+      recaptcha_tags.must_include url(:ssl => true)
     end
 
     it "does not use ssl when ssl by default is off" do
-      recaptcha_tags.must_include url(ssl: false)
+      recaptcha_tags.must_include url(:ssl => false)
     end
 
     it "does not use ssl when ssl by default is overwritten" do
       Recaptcha.configuration.use_ssl_by_default = true
-      recaptcha_tags(ssl: false).must_include url(ssl: false)
+      recaptcha_tags(:ssl => false).must_include url(:ssl => false)
     end
 
     it "uses ssl when ssl by default is overwritten to true" do
-      recaptcha_tags(ssl: true).must_include url(ssl: true)
+      recaptcha_tags(:ssl => true).must_include url(:ssl => true)
     end
   end
 
   describe "noscript" do
     it "does not adds noscript tags when noscript is given" do
-      recaptcha_tags(noscript: false).wont_include "noscript"
+      recaptcha_tags(:noscript => false).wont_include "noscript"
     end
 
     it "does not add noscript tags" do
@@ -53,7 +53,7 @@ describe Recaptcha::ClientHelper do
     end
 
     it "does not add a security token when specified" do
-      html = recaptcha_tags(stoken: false)
+      html = recaptcha_tags(:stoken => false)
       html.must_include "<div class=\"g-recaptcha\" data-sitekey=\"0000000000000000000000000000000000000000\"></div>"
     end
 
@@ -66,7 +66,7 @@ describe Recaptcha::ClientHelper do
   end
 
   it "can include size" do
-    html = recaptcha_tags(size: 10)
+    html = recaptcha_tags(:size => 10)
     html.must_include "<div class=\"g-recaptcha\" data-size=\"10\" data-sitekey=\"0000000000000000000000000000000000000000\""
   end
 

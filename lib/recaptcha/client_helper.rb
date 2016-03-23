@@ -5,7 +5,7 @@ module Recaptcha
     def recaptcha_tags(options = {})
       public_key = options[:public_key] || Recaptcha.configuration.public_key!
 
-      script_url = Recaptcha.configuration.api_server_url(ssl: options[:ssl])
+      script_url = Recaptcha.configuration.api_server_url(:ssl => options[:ssl])
       script_url += "?hl=#{options[:hl]}" unless options[:hl].to_s == ""
       fallback_uri = "#{script_url.chomp('.js')}/fallback?k=#{public_key}"
 

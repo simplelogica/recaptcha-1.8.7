@@ -47,9 +47,9 @@ module Recaptcha
       public_key || raise(RecaptchaError, "No public key specified.")
     end
 
-    def api_server_url(ssl: nil)
-      ssl = use_ssl_by_default if ssl.nil?
-      key = (ssl ? 'secure_server_url' : 'server_url')
+    def api_server_url(options = {})
+      options[:ssl] ||= use_ssl_by_default
+      key = (options[:ssl] ? 'secure_server_url' : 'server_url')
       CONFIG.fetch(key)
     end
 

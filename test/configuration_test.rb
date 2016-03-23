@@ -7,15 +7,15 @@ describe Recaptcha::Configuration do
     end
 
     it "servers the default for nil" do
-      Recaptcha.configuration.api_server_url(ssl: nil).must_equal "//www.google.com/recaptcha/api.js"
+      Recaptcha.configuration.api_server_url(:ssl => nil).must_equal "//www.google.com/recaptcha/api.js"
     end
 
     it "knows ssl" do
-      Recaptcha.configuration.api_server_url(ssl: true).must_equal "https://www.google.com/recaptcha/api.js"
+      Recaptcha.configuration.api_server_url(:ssl => true).must_equal "https://www.google.com/recaptcha/api.js"
     end
 
     it "knows non-ssl" do
-      Recaptcha.configuration.api_server_url(ssl: false).must_equal "//www.google.com/recaptcha/api.js"
+      Recaptcha.configuration.api_server_url(:ssl => false).must_equal "//www.google.com/recaptcha/api.js"
     end
   end
 
@@ -23,7 +23,7 @@ describe Recaptcha::Configuration do
     outside = '0000000000000000000000000000000000000000'
     Recaptcha.configuration.public_key.must_equal outside
 
-    Recaptcha.with_configuration(public_key: '12345') do
+    Recaptcha.with_configuration(:public_key => '12345') do
       Recaptcha.configuration.public_key.must_equal '12345'
     end
 

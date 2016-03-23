@@ -16,7 +16,7 @@ which throws an error on failiure.
 [obtain a reCAPTCHA API key](https://www.google.com/recaptcha/admin).
 
 ```Ruby
-gem "recaptcha", require: "recaptcha/rails"
+gem "recaptcha", :require => "recaptcha/rails"
 ```
 
 Keep keys out of the code base with environment variables.<br/>
@@ -44,7 +44,7 @@ And, add `verify_recaptcha` logic to each form action that you've protected.
 ```Ruby
 # app/controllers/users_controller.rb
 @user = User.new(params[:user].permit(:name))
-if verify_recaptcha(model: @user) && @user.save
+if verify_recaptcha(:model => @user) && @user.save
   redirect_to @user
 else
   render 'new'
@@ -141,7 +141,7 @@ end
 For temporary overwrites (not thread safe).
 
 ```Ruby
-Recaptcha.with_configuration(public_key: '12345') do
+Recaptcha.with_configuration(:public_key => '12345') do
   # Do stuff with the overwritten public_key.
 end
 ```
@@ -151,11 +151,11 @@ end
 Pass in keys as options at runtime, for code base with multiple reCAPTCHA setups:
 
 ```Ruby
-recaptcha_tags public_key: '6Lc6BAAAAAAAAChqRbQZcn_yyyyyyyyyyyyyyyyy'
+recaptcha_tags :public_key => '6Lc6BAAAAAAAAChqRbQZcn_yyyyyyyyyyyyyyyyy'
 
 and
 
-verify_recaptcha private_key: '6Lc6BAAAAAAAAKN3DRm6VA_xxxxxxxxxxxxxxxxx'
+verify_recaptcha :private_key => '6Lc6BAAAAAAAAKN3DRm6VA_xxxxxxxxxxxxxxxxx'
 ```
 
 ## Misc
