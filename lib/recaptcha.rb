@@ -53,7 +53,7 @@ module Recaptcha
     else
       Net::HTTP
     end
-    query = URI.encode_www_form(verify_hash)
+    query = encode_www_form(verify_hash)
     uri = URI.parse(Recaptcha.configuration.verify_url + '?' + query)
     http_instance = http.new(uri.host, uri.port)
     http_instance.read_timeout = http_instance.open_timeout = options[:timeout] || DEFAULT_TIMEOUT
@@ -79,4 +79,32 @@ module Recaptcha
 
   class VerifyError < RecaptchaError
   end
+
+private
+
+  def self.encode_www_form(enum)
+    enum.map do |k,v|
+      if v.nil?
+        encode_www_form_component(k)
+      elsif v.respond_to?(:to_ary)
+        v.to_ary.map do |w|
+          str = encode_www_form_component(k)
+          unless w.nil?
+            str << '='
+            str << encode_www_form_component(w)
+          end
+        end.join('&')
+      else
+        str = encode_www_form_component(k)
+        str << '='
+        str << encode_www_form_component(v)
+      end
+    end.join('&')
+  end
+
+  def self.encode_www_form_component(str)
+    str = str.to_s
+    str.gsub(/[^*\-.0-9A-Z_a-z]/, '')
+  end
+
 end
