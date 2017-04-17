@@ -54,7 +54,8 @@ module Recaptcha
             request = Net::HTTP::Get.new(uri.request_uri)
             recaptcha = http_instance.request(request)
           end
-          answer, error = JSON.parse(recaptcha.body).values
+          answer = JSON.parse(recaptcha.body)["success"]
+          error = false
         end
 
         unless answer.to_s == 'true'
